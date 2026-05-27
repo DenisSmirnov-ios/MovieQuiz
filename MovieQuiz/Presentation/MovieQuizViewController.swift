@@ -31,31 +31,27 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - Actions
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        let currentQuestion = questions[currentQuestionIndex]
-        let givenAnswer = false
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        showAnswerResult(isCorrect: !questions[currentQuestionIndex].correctAnswer)
     }
-    
+
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        let currentQuestion = questions[currentQuestionIndex]
-        let givenAnswer = true
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        showAnswerResult(isCorrect: questions[currentQuestionIndex].correctAnswer)
     }
     
     // MARK: - Data Structures
-    struct QuizQuestion {
-        let image: String
+    private struct QuizQuestion {
+        let imagename: String
         let text: String
         let correctAnswer: Bool
     }
     
-    struct QuizStepViewModel {
+    private struct QuizStepViewModel {
         let image: UIImage
         let question: String
         let questionNumber: String
     }
     
-    struct QuizResultsViewModel {
+    private struct QuizResultsViewModel {
         let title: String
         let text: String
         let buttonText: String
@@ -64,51 +60,51 @@ final class MovieQuizViewController: UIViewController {
     // MARK: - Questions Data
     private let questions: [QuizQuestion] = [
         QuizQuestion(
-            image: "The Godfather",
+            imagename: "The Godfather",
             text: "Рейтинг этого фильма больше чем 6?",
             correctAnswer: true),
         QuizQuestion(
-            image: "The Dark Knight",
+            imagename: "The Dark Knight",
             text: "Рейтинг этого фильма больше чем 6?",
             correctAnswer: true),
         QuizQuestion(
-            image: "Kill Bill",
+            imagename: "Kill Bill",
             text: "Рейтинг этого фильма больше чем 6?",
             correctAnswer: true),
         QuizQuestion(
-            image: "The Avengers",
+            imagename: "The Avengers",
             text: "Рейтинг этого фильма больше чем 6?",
             correctAnswer: true),
         QuizQuestion(
-            image: "Deadpool",
+            imagename: "Deadpool",
             text: "Рейтинг этого фильма больше чем 6?",
             correctAnswer: true),
         QuizQuestion(
-            image: "The Green Knight",
+            imagename: "The Green Knight",
             text: "Рейтинг этого фильма больше чем 6?",
             correctAnswer: true),
         QuizQuestion(
-            image: "Old",
+            imagename: "Old",
             text: "Рейтинг этого фильма больше чем 6?",
             correctAnswer: false),
         QuizQuestion(
-            image: "The Ice Age Adventures of Buck Wild",
+            imagename: "The Ice Age Adventures of Buck Wild",
             text: "Рейтинг этого фильма больше чем 6?",
             correctAnswer: false),
         QuizQuestion(
-            image: "Tesla",
+            imagename: "Tesla",
             text: "Рейтинг этого фильма больше чем 6?",
             correctAnswer: false),
         QuizQuestion(
-            image: "Vivarium",
+            imagename: "Vivarium",
             text: "Рейтинг этого фильма больше чем 6?",
             correctAnswer: false)
     ]
     
     // MARK: - Conversion
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        return QuizStepViewModel(
-            image: UIImage(named: model.image) ?? UIImage(),
+        QuizStepViewModel(
+            image: UIImage(named: model.imagename) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)"
         )
@@ -133,9 +129,9 @@ final class MovieQuizViewController: UIViewController {
         // Показывает результат ответа (подсвечивает рамку зелёным/красным)
         if isCorrect {
             correctAnswers += 1
-            imageView.layer.borderColor = UIColor(named: "YP Green")?.cgColor ?? UIColor.green.cgColor
+            imageView.layer.borderColor = UIColor(resource: .ypGreen).cgColor
         } else {
-            imageView.layer.borderColor = UIColor(named: "YP Red")?.cgColor ?? UIColor.red.cgColor
+            imageView.layer.borderColor = UIColor(resource: .ypRed).cgColor
         }
         
         imageView.layer.borderWidth = 8
